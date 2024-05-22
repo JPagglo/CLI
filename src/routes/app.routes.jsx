@@ -14,7 +14,7 @@ function AppRoutes(){
                 name="SignIn"
                 component={SignIn}
                 options={{
-                    title:'Faça Login'
+                    title:'Faça o Login'
                 }}
             />
 
