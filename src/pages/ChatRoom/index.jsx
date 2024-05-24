@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,23 +7,40 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
+  Modal
 } from 'react-native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 
+//Autentificação
 import auth from '@react-native-firebase/auth';
 
-import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// Icones
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+
+// Componentes
 import FabButton from '../../components/FabButton';
+import ModalNewRoom from '../../components/ModalNewRoom';
+
+
 
 export default function ChatRoom() {
   const navigation = useNavigation();
-
+  const isFocused = useIsFocused();
+  const [user, setUser] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect( ()=>{
+    const hasUser = auth().currentUser ? auth().currentUser.toJSON() : null;
+    setUser(hasUser);
+
+  }, [isFocused]);
 
   function handleSignOut(){
   auth()
   .signOut()
   .then(() =>{
+    setUser(null);
     navigation.navigate("SignIn")
   }).catch(()=>{
     console.log("nao tem user")
@@ -34,18 +51,24 @@ export default function ChatRoom() {
     <SafeAreaView style={styles.container}>
       <View style={styles.headerRoom}>
         <View style={styles.headerRoomLeft}>
-          <TouchableOpacity onPress={handleSignOut}>
-            <Icon name="arrow-left" size={28} color="#fff" />
+          {user && (
+            <TouchableOpacity onPress={handleSignOut}>
+            <MaterialIcons name="arrow-back" size={28} color="#fff" />
           </TouchableOpacity>
+          )}
           <Text style={styles.title}>Grupos</Text>
         </View>
 
         <TouchableOpacity>
-          <Icon name="search" size={28} color="#fff" />
+          <MaterialIcons name="search" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
 
-      <FabButton setVisible ={ () => setModalVisible(true)}/>
+      <FabButton setVisible ={ () => setModalVisible(true)} userStatus={user}/>
+
+      <Modal visible={modalVisible} animationType='Fade' transparent={true}>
+        <ModalNewRoom setVisible ={ () => setModalVisible(false)}/>
+      </Modal>
     </SafeAreaView>
   );
 }
