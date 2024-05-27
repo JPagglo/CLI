@@ -14,7 +14,7 @@ function ModalNewRoom( {setVisible} ){
        createRoom();
 
     }
-   //Criar sala no Firestore (banco)
+   
     function createRoom(){
         firestore()
         .collection('MESSAGE_THREADS')
