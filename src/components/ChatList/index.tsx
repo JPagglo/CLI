@@ -7,7 +7,7 @@ function ChatList( { data } ){
             <View style={styles.row}>
                 <View style={styles.content}>
                     <View style={styles.header}>
-                        <Text style={style.nameText} numberOfLines={1}> {data.name}</Text>
+                        <Text style={styles.nameText} numberOfLines={1}> {data.name}</Text>
                     </View>
                     <Text style={styles.contentText} numberOfLines={1}>{data.lastMessage.text}</Text>
                 </View>
@@ -25,5 +25,21 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         backgroundColor:'rgba(241, 240, 245,0.5)'
+    },
+    content:{
+        flexShrink:1,
+    },
+    header:{
+        flexDirection:'row'
+    },
+    contentText:{
+        color:"#c1c1c1",
+        fontSize:16,
+        marginTop:2,
+    },
+    nameText:{
+        fontSize:18,
+        fontWeight:'bold',
+        color:"#000"
     }
 })
