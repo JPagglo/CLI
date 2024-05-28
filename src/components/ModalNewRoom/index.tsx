@@ -28,9 +28,6 @@ function ModalNewRoom( {setVisible , setUpdateScreen} ){
                     createRoom();
                 }
         })
-
-       createRoom();
-
     }
    
     function createRoom(){
@@ -65,7 +62,6 @@ function ModalNewRoom( {setVisible , setUpdateScreen} ){
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={setVisible}>
                 <View style={styles.modal}></View>
-
             </TouchableWithoutFeedback>
 
             <View style={styles.modalContent}>

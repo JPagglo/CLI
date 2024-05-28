@@ -83,10 +83,43 @@ export default function ChatRoom() {
   .then(() =>{
     setUser(null);
     navigation.navigate("SignIn")
-  }).catch(()=>{
+  })
+  .catch(()=>{
     console.log("nao tem user")
   })
 }
+
+function deleteRoom(ownerId, idRoom){
+  if(ownerId !== user?.uid) return;
+
+  Alert.alerrt(
+    "Atenção",
+    "Deseja deleetar a sala?"
+    [
+      {
+        text:"Cancel",
+        onPress:() =>{},
+        style:"cancel"
+      },
+      {
+        text:"Ok!",
+        onPress:() => handleDeleteRoom(idRoom)
+      }
+    ]
+  )
+}
+
+async function handleDeleteRoom(idRoom){
+  
+  await firestore()
+  .collection('MESSAGE_THREADS')
+  .doc(idRoom)
+  .delete();
+
+  setUpdateScreen(!updateScreen);
+ }
+
+
 
 if(loading){
   return(
@@ -110,12 +143,13 @@ if(loading){
           <MaterialIcons name="search" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
+
       <FlatList
         data={threads}
         keyExtractor={item => item._id}
         showsHorizontalScrollIndicator={false}
         renderItem={ ({ item }) => (
-          <ChatList data={item}/>
+          <ChatList data={item} deleteRoom={() => deleteRoom()} />
         )}
       />
       <FabButton setVisible ={ () => setModalVisible(true)} userStatus={user}/>
