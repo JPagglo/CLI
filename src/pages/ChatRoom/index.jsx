@@ -149,12 +149,12 @@ if(loading){
         keyExtractor={item => item._id}
         showsHorizontalScrollIndicator={false}
         renderItem={ ({ item }) => (
-          <ChatList data={item} deleteRoom={() => deleteRoom()} />
+          <ChatList data={item} deleteRoom={() => deleteRoom(item.owner, item._id)} userStatus={user}/>
         )}
       />
       <FabButton setVisible ={ () => setModalVisible(true)} userStatus={user}/>
 
-      <Modal visible={modalVisible} animationType='Fade' transparent={true}>
+      <Modal visible={modalVisible} animationType='fade' transparent={true}>
         <ModalNewRoom setVisible ={ () => setModalVisible(false)} setUpdateScreen={() => setUpdateScreen(!updateScreen)}/>
       </Modal>
     </SafeAreaView>

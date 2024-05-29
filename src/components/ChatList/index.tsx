@@ -4,11 +4,15 @@ import { useNavigation } from "@react-navigation/native";
 
 
 
-function ChatList( { data, deleteRoom } ){
+function ChatList( { data, deleteRoom, userStatus} ){
     const navigation = useNavigation();
 
     function openChat(){
-        navigation.navigate("Messages", {thread: data})
+        if(userStatus){
+            navigation.navigate("Messages", {thread: data})
+        }else{
+            navigation.navigate("SignIn")
+        }
     }
 
 
